@@ -1,7 +1,14 @@
 <!doctype html>
 <html>
-    <head></head>
+    <head>
+        <title>Details page - {{ item.name }}</title>
+    </head>
     <body>
-        item detail
+        <h1>{{ item.name }}</h1>
+        <section>
+            {% for vt in item.votedtrait_set.all %}
+            <p>{{ vt.trait.label }} | "{{ vt.plusminus }}" | {{ vt.vote }}</p>
+            {% endfor %}
+        </section>
     </body>
 </html>

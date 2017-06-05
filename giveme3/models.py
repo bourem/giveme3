@@ -2,7 +2,10 @@ from django.db import models
 
 
 class Trait(models.Model):
-    value = models.CharField(max_length=20)
+    label = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.label
 
 class Item(models.Model):
     name = models.CharField(max_length=200)
@@ -14,6 +17,9 @@ class Item(models.Model):
             through_fields=('item', 'trait'),
             )
 
+    def __str__(self):
+        return self.name
+
 class VotedTrait(models.Model):
     trait = models.ForeignKey(
             Trait,
@@ -21,7 +27,7 @@ class VotedTrait(models.Model):
     item = models.ForeignKey(
             Item,
             on_delete=models.CASCADE)
-    value = models.PositiveIntegerField()
+    vote = models.PositiveIntegerField()
     PLUS_MINUS_CHOICE = (
             ('+', 'Plus'),
             ('-', 'Minus'),
@@ -32,3 +38,6 @@ class VotedTrait(models.Model):
             choices=PLUS_MINUS_CHOICE,
             default='z',
     )
+
+    def __str__(self):
+        return str(self.trait) + str(self.item)
